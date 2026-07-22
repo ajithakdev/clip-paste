@@ -1,6 +1,12 @@
+// clip-paste — a fork of clippy-land (https://github.com/k33wee/clippy-land)
+// Copyright (C) 2026 ajithakdev <ajithkumarks2579@gmail.com>
+// Copyright (C) k33wee <https://github.com/k33wee>
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Modified 2026-07-22: see below.
+// Made --toggle a safe no-op after removing the layer-surface IPC toggle path.
+
 mod app;
 mod i18n;
-mod ipc;
 mod services;
 mod settings;
 
@@ -9,10 +15,11 @@ fn main() -> cosmic::iced::Result {
 
     for arg in std::env::args().skip(1) {
         if arg == "--toggle" || arg == "-t" {
-            if let Err(e) = ipc::send_toggle_signal() {
-                eprintln!("Failed to toggle clippy-land: {e}");
-                std::process::exit(1);
-            }
+            // The layer-surface toggle was removed: cosmic-comp rejects the
+            // constrained/standalone layer surface (cosmic_corner_radius_layer_v1
+            // protocol error) and the applet cannot open its app_popup without a
+            // pointer event. Exit cleanly instead of mapping a broken surface.
+            eprintln!("toggle unsupported; click the panel icon");
             return Ok(());
         }
 
@@ -27,10 +34,10 @@ fn main() -> cosmic::iced::Result {
         }
 
         if arg == "-h" || arg == "--help" {
-            println!("Clippy Land - Clipboard history applet for COSMIC");
+            println!("clip-paste - Clipboard history applet for COSMIC");
             println!();
             println!("USAGE:");
-            println!("    cosmic-applet-clippy-land [OPTIONS]");
+            println!("    cosmic-applet-clip-paste [OPTIONS]");
             println!();
             println!("OPTIONS:");
             println!("    -t, --toggle    Toggle the clipboard popup via keyboard shortcut");
@@ -42,7 +49,7 @@ fn main() -> cosmic::iced::Result {
             println!("    1. Open COSMIC Settings > Keyboard > Custom Shortcuts");
             println!("    2. Click 'Add Custom Shortcut'");
             println!("    3. Name:    Clipboard History");
-            println!("    4. Command: cosmic-applet-clippy-land --toggle");
+            println!("    4. Command: cosmic-applet-clip-paste --toggle");
             println!("    5. Shortcut: Press Super+V (or your preferred shortcut)");
             return Ok(());
         }

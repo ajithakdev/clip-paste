@@ -1,7 +1,6 @@
 mod clipboard;
 mod history_limits;
 mod hover;
-mod ipc;
 mod navigation;
 mod popup;
 mod scrolling;

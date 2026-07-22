@@ -95,8 +95,8 @@ fn apply_settings_updates_runtime_settings_and_closes_panel() {
         .duration_since(std::time::UNIX_EPOCH)
         .expect("time should be after unix epoch")
         .as_nanos();
-    let cfg_path = std::env::temp_dir().join(format!("clippy-land-test-settings-{unique}.toml"));
-    unsafe { std::env::set_var("CLIPPY_LAND_CONFIG", &cfg_path) };
+    let cfg_path = std::env::temp_dir().join(format!("clip-paste-test-settings-{unique}.toml"));
+    unsafe { std::env::set_var("CLIP_PASTE_CONFIG", &cfg_path) };
 
     let mut app = AppModel::default();
     app.settings_open = true;
@@ -119,5 +119,5 @@ fn apply_settings_updates_runtime_settings_and_closes_panel() {
     assert!(persisted.contains("max_pinned = 30"));
 
     let _ = std::fs::remove_file(cfg_path);
-    unsafe { std::env::remove_var("CLIPPY_LAND_CONFIG") };
+    unsafe { std::env::remove_var("CLIP_PASTE_CONFIG") };
 }

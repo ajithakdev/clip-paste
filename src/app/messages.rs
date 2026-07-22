@@ -6,8 +6,6 @@ use cosmic::iced::window::Id;
 #[derive(Debug, Clone)]
 pub enum Message {
     TogglePopup,
-    /// Toggle popup triggered externally via the --toggle CLI flag.
-    ToggleViaIpc,
     PopupClosed(Id),
     PopupOpened(Id),
     PopupRedraw(Id),
@@ -29,6 +27,7 @@ pub enum Message {
     SettingsMaxPinnedChanged(String),
     SettingsMaxImageBytesChanged(String),
     SettingsMaxImageDimensionChanged(String),
+    SettingsPasteOnSelectToggled(bool),
     ApplySettings,
     /// Keyboard vertical navigation, resolved by current UI state.
     KeyboardNavigateUp,

@@ -67,7 +67,7 @@ fn creates_image_entry_from_local_file_path() {
         .duration_since(UNIX_EPOCH)
         .expect("time should be after unix epoch")
         .as_nanos();
-    let path = std::env::temp_dir().join(format!("clippy-land-test-{unique}.png"));
+    let path = std::env::temp_dir().join(format!("clip-paste-test-{unique}.png"));
 
     let img = RgbaImage::from_pixel(2, 2, Rgba([0, 255, 0, 255]));
     DynamicImage::ImageRgba8(img)
@@ -128,7 +128,7 @@ fn rejects_malformed_image_bytes_for_thumbnail() {
 }
 
 fn wayland_tests_enabled() -> bool {
-    std::env::var("CLIPPY_LAND_RUN_WAYLAND_TESTS")
+    std::env::var("CLIP_PASTE_RUN_WAYLAND_TESTS")
         .map(|v| v == "1")
         .unwrap_or(false)
         && std::env::var_os("WAYLAND_DISPLAY").is_some()
@@ -156,19 +156,19 @@ fn read_image_with_retry(retries: usize) -> Option<ClipboardEntry> {
 }
 
 #[test]
-#[ignore = "requires CLIPPY_LAND_RUN_WAYLAND_TESTS=1 and a live Wayland session"]
+#[ignore = "requires CLIP_PASTE_RUN_WAYLAND_TESTS=1 and a live Wayland session"]
 fn wayland_clipboard_text_round_trip() {
     if !wayland_tests_enabled() {
         return;
     }
 
-    let text = "clippy-land-wayland-text";
+    let text = "clip-paste-wayland-text";
     assert!(write_clipboard_text(text));
     assert!(read_text_with_retry(text, 20));
 }
 
 #[test]
-#[ignore = "requires CLIPPY_LAND_RUN_WAYLAND_TESTS=1 and a live Wayland session"]
+#[ignore = "requires CLIP_PASTE_RUN_WAYLAND_TESTS=1 and a live Wayland session"]
 fn wayland_clipboard_image_round_trip() {
     if !wayland_tests_enabled() {
         return;

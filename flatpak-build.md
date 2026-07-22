@@ -9,10 +9,10 @@
 # 1. Validate the MetaInfo file
 flatpak install -y --user flathub org.flatpak.Builder
 flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
-  appstream resources/io.github.k33wee.clippy-land.metainfo.xml
+  appstream resources/io.github.ajithakdev.clip-paste.metainfo.xml
 
 # 2. Validate the desktop file
-desktop-file-validate resources/io.github.k33wee.clippy-land.desktop
+desktop-file-validate resources/io.github.ajithakdev.clip-paste.desktop
 
 # 3. Install prerequisites
 sudo apt-get install flatpak-builder
@@ -36,12 +36,12 @@ flatpak-builder \
   --force-clean \
   --install-deps-from=flathub \
   build-dir \
-  io.github.k33wee.clippy-land.json
+  io.github.ajithakdev.clip-paste.json
 
 # 6. Run it
-flatpak run --user io.github.k33wee.clippy-land
+flatpak run --user io.github.ajithakdev.clip-paste
 
 # 7. Run the manifest linter
 flatpak run --command=flatpak-builder-lint org.flatpak.Builder \
-  manifest io.github.k33wee.clippy-land.json
+  manifest io.github.ajithakdev.clip-paste.json
 ```

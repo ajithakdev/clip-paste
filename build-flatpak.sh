@@ -4,7 +4,7 @@ set -e
 # Get metadata from Cargo.toml
 NAME=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
 VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
-APPID=io.github.k33wee.clippy-land
+APPID=io.github.ajithakdev.clip-paste
 MANIFEST="${APPID}.json"
 LOCAL_MANIFEST=".${APPID}.local.json"
 

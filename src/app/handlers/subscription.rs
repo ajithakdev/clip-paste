@@ -1,5 +1,4 @@
 use crate::app::{AppModel, Message};
-use crate::ipc;
 use crate::services::clipboard;
 use cosmic::iced::Subscription;
 use cosmic::iced::futures::channel::mpsc;
@@ -41,7 +40,6 @@ pub(super) fn subscription(app: &AppModel) -> Subscription<Message> {
                 }
             })
         }),
-        ipc::signal_file_watcher(),
     ];
 
     if app.popup.is_some() {

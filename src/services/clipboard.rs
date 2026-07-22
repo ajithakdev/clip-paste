@@ -50,7 +50,7 @@ pub fn write_clipboard_image(mime: &str, bytes: &[u8]) -> bool {
 }
 
 pub(super) fn debug_log(message: impl std::fmt::Display) {
-    if std::env::var_os("CLIPPY_LAND_DEBUG_CLIPBOARD").is_some() {
-        eprintln!("[clippy-land] {message}");
+    if std::env::var_os("CLIP_PASTE_DEBUG_CLIPBOARD").is_some() {
+        eprintln!("[clip-paste] {message}");
     }
 }

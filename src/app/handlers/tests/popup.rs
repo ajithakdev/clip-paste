@@ -60,7 +60,7 @@ fn popup_open_trace_starts_on_open_and_clears_after_first_view() {
 fn popup_controls_are_deferred_until_popup_opened() {
     let mut app = AppModel::default();
 
-    dispatch(&mut app, Message::ToggleViaIpc);
+    dispatch(&mut app, Message::TogglePopup);
 
     let popup_id = app.popup.expect("popup should be opened by toggle");
     assert!(!app.popup_controls_ready);
@@ -74,7 +74,7 @@ fn popup_controls_are_deferred_until_popup_opened() {
 fn popup_controls_ignore_open_for_other_window() {
     let mut app = AppModel::default();
 
-    dispatch(&mut app, Message::ToggleViaIpc);
+    dispatch(&mut app, Message::TogglePopup);
 
     let popup_id = app.popup.expect("popup should be opened by toggle");
     let other_id = cosmic::iced::window::Id::unique();
@@ -114,18 +114,6 @@ fn toggle_popup_opens_anchored_popup_and_starts_trace() {
 }
 
 #[test]
-fn toggle_via_ipc_opens_layer_surface_popup_and_starts_trace() {
-    let mut app = AppModel::default();
-
-    dispatch(&mut app, Message::ToggleViaIpc);
-
-    assert!(app.popup.is_some());
-    assert_eq!(app.popup_surface, Some(PopupSurface::LayerSurface));
-    assert!(!app.popup_controls_ready);
-    assert!(app.popup_open_trace_pending_for_test());
-}
-
-#[test]
 fn prewarm_for_first_popup_caches_existing_image_thumbnails() {
     let mut app = AppModel::default();
     app.history.push_back(HistoryItem {
@@ -139,21 +127,9 @@ fn prewarm_for_first_popup_caches_existing_image_thumbnails() {
 }
 
 #[test]
-fn window_unfocused_closes_matching_layer_surface_popup() {
-    let mut app = AppModel::default();
-    let id = cosmic::iced::window::Id::unique();
-    app.popup = Some(id);
-    app.popup_surface = Some(PopupSurface::LayerSurface);
-    app.search_query = "query".into();
-
-    dispatch(&mut app, Message::WindowUnfocused(id));
-
-    assert!(app.popup.is_none());
-    assert!(app.search_query.is_empty());
-}
-
-#[test]
-fn window_unfocused_ignores_anchored_popup() {
+fn window_unfocused_leaves_anchored_popup_untouched() {
+    // The layer surface was removed; the anchored icon-click popup manages its
+    // own dismiss-on-focus-loss via the compositor, so WindowUnfocused is a no-op.
     let mut app = AppModel::default();
     let id = cosmic::iced::window::Id::unique();
     app.popup = Some(id);
@@ -164,21 +140,5 @@ fn window_unfocused_ignores_anchored_popup() {
 
     assert_eq!(app.popup, Some(id));
     assert_eq!(app.popup_surface, Some(PopupSurface::AnchoredPopup));
-    assert_eq!(app.search_query, "query");
-}
-
-#[test]
-fn window_unfocused_ignores_other_window_ids() {
-    let mut app = AppModel::default();
-    let id = cosmic::iced::window::Id::unique();
-    let other_id = cosmic::iced::window::Id::unique();
-    app.popup = Some(id);
-    app.popup_surface = Some(PopupSurface::LayerSurface);
-    app.search_query = "query".into();
-
-    dispatch(&mut app, Message::WindowUnfocused(other_id));
-
-    assert_eq!(app.popup, Some(id));
-    assert_eq!(app.popup_surface, Some(PopupSurface::LayerSurface));
     assert_eq!(app.search_query, "query");
 }

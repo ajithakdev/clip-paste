@@ -33,6 +33,10 @@ pub(super) fn handle(app: &mut AppModel, message: Message) -> bool {
             app.settings_draft.max_image_dimension_px = value;
             true
         }
+        Message::SettingsPasteOnSelectToggled(value) => {
+            app.settings_draft.paste_on_select = value;
+            true
+        }
         Message::ApplySettings => {
             let max_history = match parse_usize_field(&app.settings_draft.max_history) {
                 Ok(v) => v,
@@ -115,6 +119,7 @@ pub(super) fn handle(app: &mut AppModel, message: Message) -> bool {
                 max_pinned,
                 max_image_bytes,
                 max_image_dimension_px,
+                paste_on_select: app.settings_draft.paste_on_select,
             }
             .normalized();
 

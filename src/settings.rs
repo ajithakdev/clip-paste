@@ -1,3 +1,10 @@
+// clip-paste — a fork of clippy-land (https://github.com/k33wee/clippy-land)
+// Copyright (C) 2026 ajithakdev <ajithkumarks2579@gmail.com>
+// Copyright (C) k33wee <https://github.com/k33wee>
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Modified 2026-07-22: see below.
+// Added paste_on_select setting; renamed config dir/env vars to clip-paste.
+
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::io;
@@ -11,6 +18,9 @@ pub struct AppSettings {
     pub max_pinned: usize,
     pub max_image_bytes: usize,
     pub max_image_dimension_px: u32,
+    /// When true, selecting a history entry copies it AND synthesizes a paste
+    /// (Ctrl+V via wtype) into the previously-focused window.
+    pub paste_on_select: bool,
 }
 
 impl Default for AppSettings {
@@ -21,6 +31,7 @@ impl Default for AppSettings {
             max_pinned: 20,
             max_image_bytes: 8 * 1024 * 1024,
             max_image_dimension_px: 8192,
+            paste_on_select: true,
         }
     }
 }
@@ -96,7 +107,7 @@ impl AppSettings {
 }
 
 fn config_path() -> Option<PathBuf> {
-    if let Some(explicit) = std::env::var_os("CLIPPY_LAND_CONFIG") {
+    if let Some(explicit) = std::env::var_os("CLIP_PASTE_CONFIG") {
         let path = PathBuf::from(explicit);
         if !path.as_os_str().is_empty() {
             return Some(path);
@@ -107,7 +118,7 @@ fn config_path() -> Option<PathBuf> {
         .map(PathBuf::from)
         .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))?;
 
-    Some(config_dir.join("clippy-land").join("config.toml"))
+    Some(config_dir.join("clip-paste").join("config.toml"))
 }
 
 #[cfg(test)]
@@ -137,6 +148,7 @@ mod tests {
             max_pinned: 9999,
             max_image_bytes: 1,
             max_image_dimension_px: 99_999,
+            paste_on_select: true,
         };
 
         let normalized = raw.normalized();
@@ -157,7 +169,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .expect("clock should be after unix epoch")
             .as_nanos();
-        let path = std::env::temp_dir().join(format!("clippy-land-settings-{unique}.toml"));
+        let path = std::env::temp_dir().join(format!("clip-paste-settings-{unique}.toml"));
 
         let settings = AppSettings {
             schema_version: 1,
@@ -165,6 +177,7 @@ mod tests {
             max_pinned: 22,
             max_image_bytes: 2 * 1024 * 1024,
             max_image_dimension_px: 4096,
+            paste_on_select: false,
         }
         .normalized();
 
@@ -174,6 +187,7 @@ mod tests {
 
         let loaded = AppSettings::load_from_path(&path);
         assert_eq!(loaded, settings);
+        assert!(!loaded.paste_on_select);
 
         let _ = std::fs::remove_file(path);
     }

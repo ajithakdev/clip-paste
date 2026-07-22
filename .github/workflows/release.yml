@@ -93,7 +93,7 @@ jobs:
               {"type": "dir", "path": "."},
               "cargo-sources.json"
             ]
-          ' io.github.k33wee.clippy-land.json > io.github.k33wee.clippy-land.local.json
+          ' io.github.ajithakdev.clip-paste.json > io.github.ajithakdev.clip-paste.local.json
 
       - name: Build app
         run: |
@@ -103,14 +103,14 @@ jobs:
             --default-branch=testing \
             --user \
             release \
-            io.github.k33wee.clippy-land.local.json
+            io.github.ajithakdev.clip-paste.local.json
 
       - name: Create Flatpak bundle
         run: |
           flatpak build-bundle \
             repo \
             clippy-land_${{ steps.version.outputs.value }}.flatpak \
-            io.github.k33wee.clippy-land \
+            io.github.ajithakdev.clip-paste \
             testing
 
       - uses: actions/upload-artifact@v6

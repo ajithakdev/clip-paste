@@ -1,7 +1,7 @@
 set dotenv-load := false
 
-name    := 'cosmic-applet-clippy-land'
-appid   := 'io.github.k33wee.clippy-land'
+name    := 'cosmic-applet-clip-paste'
+appid   := 'io.github.ajithakdev.clip-paste'
 prefix  := '/usr'
 
 bin_dir      := prefix + '/bin'
@@ -64,7 +64,7 @@ test:
 
 # Run Wayland clipboard round-trip unit tests (ignored by default)
 test-wayland:
-    CLIPPY_LAND_RUN_WAYLAND_TESTS=1 cargo test -- --ignored
+    CLIP_PASTE_RUN_WAYLAND_TESTS=1 cargo test -- --ignored
 
 # Run UI-level Wayland E2E clipboard tests via --toggle
 e2e:

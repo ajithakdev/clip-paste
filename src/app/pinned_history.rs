@@ -9,7 +9,7 @@ use std::path::{Path, PathBuf};
 
 const SCHEMA_VERSION: u8 = 1;
 #[cfg(not(test))]
-const STATE_DIR_NAME: &str = "clippy-land";
+const STATE_DIR_NAME: &str = "clip-paste";
 const MANIFEST_FILE_NAME: &str = "pinned-history.toml";
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -206,7 +206,7 @@ impl PersistedEntry {
 }
 
 fn pinned_history_path() -> Option<PathBuf> {
-    if let Some(explicit) = std::env::var_os("CLIPPY_LAND_PINNED_HISTORY") {
+    if let Some(explicit) = std::env::var_os("CLIP_PASTE_PINNED_HISTORY") {
         let path = PathBuf::from(explicit);
         if !path.as_os_str().is_empty() {
             return Some(path);
@@ -329,7 +329,7 @@ mod tests {
             .expect("clock should be after unix epoch")
             .as_nanos();
         std::env::temp_dir()
-            .join(format!("clippy-land-{test_name}-{unique}"))
+            .join(format!("clip-paste-{test_name}-{unique}"))
             .join("pinned-history.toml")
     }
 

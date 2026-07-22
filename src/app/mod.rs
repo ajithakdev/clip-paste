@@ -1,3 +1,10 @@
+// clip-paste — a fork of clippy-land (https://github.com/k33wee/clippy-land)
+// Copyright (C) 2026 ajithakdev <ajithkumarks2579@gmail.com>
+// Copyright (C) k33wee <https://github.com/k33wee>
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Modified 2026-07-22: see below.
+// Removed layer-surface geometry; startup opens the anchored popup; app-id renamed.
+
 mod handlers;
 mod icons;
 mod messages;
@@ -16,11 +23,7 @@ pub struct AppFlags {
 use crate::app::model::SettingsDraft;
 use crate::services::clipboard;
 use crate::settings::AppSettings;
-use cosmic::iced::platform_specific::shell::wayland::commands::layer_surface::{
-    self, KeyboardInteractivity,
-};
-use cosmic::iced::runtime::platform_specific::wayland::layer_surface::SctkLayerSurfaceSettings;
-use cosmic::iced::{Limits, Subscription, window::Id};
+use cosmic::iced::{Subscription, window::Id};
 use cosmic::prelude::*;
 use std::time::{Duration, Instant};
 
@@ -32,20 +35,6 @@ pub(super) fn text_overlay_scroll_id() -> cosmic::iced::core::widget::Id {
     cosmic::iced::core::widget::Id::new("text-overlay-scroll")
 }
 
-pub(in crate::app) fn history_layer_surface_settings(id: Id) -> SctkLayerSurfaceSettings {
-    SctkLayerSurfaceSettings {
-        id,
-        keyboard_interactivity: KeyboardInteractivity::OnDemand,
-        anchor: layer_surface::Anchor::TOP
-            | layer_surface::Anchor::LEFT
-            | layer_surface::Anchor::RIGHT,
-        namespace: "clippy-land".into(),
-        size: Some((None, Some(400))),
-        size_limits: Limits::NONE.min_width(1.0).min_height(1.0),
-        ..Default::default()
-    }
-}
-
 impl cosmic::Application for AppModel {
     type Executor = cosmic::executor::Default;
 
@@ -54,7 +43,7 @@ impl cosmic::Application for AppModel {
     type Message = Message;
 
     /// Unique identifier in RDNN (reverse domain name notation) format
-    const APP_ID: &'static str = "io.github.k33wee.clippy-land";
+    const APP_ID: &'static str = "io.github.ajithakdev.clip-paste";
 
     fn core(&self) -> &cosmic::Core {
         &self.core
@@ -124,7 +113,7 @@ impl cosmic::Application for AppModel {
 
         if flags.open_popup_on_start {
             app.begin_popup_open_trace("startup");
-            let task = surfaces::open_layer_surface_popup(&mut app);
+            let task = surfaces::open_anchored_popup(&mut app);
 
             (app, task)
         } else {
@@ -160,9 +149,9 @@ impl cosmic::Application for AppModel {
 }
 
 fn init_timing_log(label: &'static str, init_started: Instant, stage_elapsed: Duration) {
-    if std::env::var_os("CLIPPY_LAND_DEBUG_TIMING").is_some() {
+    if std::env::var_os("CLIP_PASTE_DEBUG_TIMING").is_some() {
         eprintln!(
-            "[clippy-land timing] init stage: {label} at {:.2}ms (stage={:.2}ms)",
+            "[clip-paste timing] init stage: {label} at {:.2}ms (stage={:.2}ms)",
             duration_ms(init_started.elapsed()),
             duration_ms(stage_elapsed)
         );

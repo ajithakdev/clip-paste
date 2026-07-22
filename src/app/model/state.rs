@@ -62,6 +62,7 @@ pub struct SettingsDraft {
     pub max_pinned: String,
     pub max_image_bytes: String,
     pub max_image_dimension_px: String,
+    pub paste_on_select: bool,
 }
 
 impl SettingsDraft {
@@ -71,6 +72,7 @@ impl SettingsDraft {
             max_pinned: settings.max_pinned.to_string(),
             max_image_bytes: settings.max_image_bytes.to_string(),
             max_image_dimension_px: settings.max_image_dimension_px.to_string(),
+            paste_on_select: settings.paste_on_select,
         }
     }
 }
@@ -86,7 +88,6 @@ pub enum FocusPart {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(in crate::app) enum PopupSurface {
     AnchoredPopup,
-    LayerSurface,
 }
 
 impl AppModel {

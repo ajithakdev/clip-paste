@@ -1,0 +1,50 @@
+{
+  "id": "io.github.ajithakdev.clip-paste",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "25.08",
+  "base": "com.system76.Cosmic.BaseApp",
+  "base-version": "stable",
+  "sdk": "org.freedesktop.Sdk",
+  "sdk-extensions": ["org.freedesktop.Sdk.Extension.rust-stable"],
+  "command": "cosmic-applet-clip-paste.sh",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=fallback-x11",
+    "--filesystem=/run/user",
+    "--filesystem=xdg-config/cosmic:rw",
+    "--talk-name=com.system76.CosmicSettingsDaemon"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/rust-stable/bin",
+    "env": {
+      "CARGO_HOME": "/run/build/cosmic-applet-clip-paste/cargo"
+    }
+  },
+  "modules": [
+    {
+      "name": "cosmic-applet-clip-paste",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cargo fetch --locked --offline --manifest-path Cargo.toml --verbose",
+        "cargo build --locked --offline --release --verbose",
+        "install -Dm0755 target/release/cosmic-applet-clip-paste /app/bin/cosmic-applet-clip-paste",
+        "install -Dm0755 resources/cosmic-applet-clip-paste.sh /app/bin/cosmic-applet-clip-paste.sh",
+        "sh scripts/render-debug-wrapper.sh resources/cosmic-applet-clip-paste-debug.sh.in /app/bin/cosmic-applet-clip-paste /app/bin/cosmic-applet-clip-paste-debug.sh",
+        "install -Dm0644 resources/io.github.ajithakdev.clip-paste.desktop /app/share/applications/io.github.ajithakdev.clip-paste.desktop",
+        "install -Dm0644 resources/io.github.ajithakdev.clip-paste.metainfo.xml /app/share/metainfo/io.github.ajithakdev.clip-paste.metainfo.xml",
+        "install -Dm0644 resources/icon.svg /app/share/icons/hicolor/scalable/apps/io.github.ajithakdev.clip-paste.svg",
+        "install -Dm0644 resources/icon.svg /app/share/icons/hicolor/scalable/apps/io.github.ajithakdev.clip-paste-symbolic.svg",
+        "install -Dm0644 LICENSE /app/share/licenses/io.github.ajithakdev.clip-paste/LICENSE"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/ajithakdev/clip-paste.git",
+          "tag": "v1.0.0"
+        },
+        "cargo-sources.json"
+      ]
+    }
+  ]
+}

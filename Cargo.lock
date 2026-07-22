@@ -692,6 +692,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f079e83a288787bcd14a6aea84cee5c87a67c5a3e660c30f557a3d24761b3527"
 
 [[package]]
+name = "clip-paste"
+version = "1.0.0"
+dependencies = [
+ "futures-util",
+ "i18n-embed",
+ "i18n-embed-fl",
+ "image",
+ "libcosmic",
+ "rust-embed",
+ "serde",
+ "tokio",
+ "toml 0.9.12+spec-1.1.0",
+ "wl-clipboard-rs",
+]
+
+[[package]]
 name = "clipboard-win"
 version = "5.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -875,22 +891,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77745e017f5edba1a9c1d854f6f3a52dac8a12dd5af5d2f54aecf61e43d80d30"
 dependencies = [
  "libm",
-]
-
-[[package]]
-name = "cosmic-applet-clippy-land"
-version = "1.0.0"
-dependencies = [
- "futures-util",
- "i18n-embed",
- "i18n-embed-fl",
- "image",
- "libcosmic",
- "rust-embed",
- "serde",
- "tokio",
- "toml 0.9.12+spec-1.1.0",
- "wl-clipboard-rs",
 ]
 
 [[package]]

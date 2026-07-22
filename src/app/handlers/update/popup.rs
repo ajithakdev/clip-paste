@@ -1,7 +1,6 @@
 use super::shared::warm_thumbnail_handles;
 use crate::app::{AppModel, Message};
 use cosmic::prelude::*;
-use std::time::Instant;
 
 pub(super) fn handle(
     app: &mut AppModel,
@@ -9,7 +8,6 @@ pub(super) fn handle(
 ) -> Option<Task<cosmic::Action<Message>>> {
     match message {
         Message::TogglePopup => Some(toggle_popup(app)),
-        Message::ToggleViaIpc => Some(toggle_via_ipc(app)),
         Message::PopupOpened(id) => {
             if app.popup.as_ref() == Some(&id) {
                 app.popup_controls_ready = true;
@@ -49,27 +47,14 @@ fn toggle_popup(app: &mut AppModel) -> Task<cosmic::Action<Message>> {
     }
 }
 
-fn toggle_via_ipc(app: &mut AppModel) -> Task<cosmic::Action<Message>> {
-    if app.popup.is_some() {
-        close_popup(app, "ipc toggle closed popup before first view")
-    } else {
-        app.begin_popup_open_trace("ipc-toggle");
-        let warm_started = Instant::now();
-        warm_thumbnail_handles(app);
-        app.note_popup_stage_duration("warm_thumbnail_handles complete", warm_started.elapsed());
-        open_layer_surface_popup(app)
-    }
-}
-
-fn open_layer_surface_popup(app: &mut AppModel) -> Task<cosmic::Action<Message>> {
-    crate::app::surfaces::open_layer_surface_popup(app)
-}
-
 fn open_anchored_popup(app: &mut AppModel) -> Task<cosmic::Action<Message>> {
     crate::app::surfaces::open_anchored_popup(app)
 }
 
-fn close_popup(app: &mut AppModel, reason: &'static str) -> Task<cosmic::Action<Message>> {
+pub(super) fn close_popup(
+    app: &mut AppModel,
+    reason: &'static str,
+) -> Task<cosmic::Action<Message>> {
     let Some(id) = app.popup.take() else {
         return Task::none();
     };
@@ -96,14 +81,10 @@ fn clear_popup_state(app: &mut AppModel, reason: &'static str) {
 }
 
 fn window_unfocused(
-    app: &mut AppModel,
-    id: cosmic::iced::window::Id,
+    _app: &mut AppModel,
+    _id: cosmic::iced::window::Id,
 ) -> Task<cosmic::Action<Message>> {
-    if app.popup.as_ref() == Some(&id)
-        && app.popup_surface == Some(crate::app::model::PopupSurface::LayerSurface)
-    {
-        close_popup(app, "window lost focus before first redraw")
-    } else {
-        Task::none()
-    }
+    // The anchored icon-click popup manages its own dismiss-on-focus-loss via the
+    // compositor; there is no longer a layer surface to tear down here.
+    Task::none()
 }

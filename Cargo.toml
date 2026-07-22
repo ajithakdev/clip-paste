@@ -1,10 +1,20 @@
 [package]
-name = "cosmic-applet-clippy-land"
+name = "clip-paste"
 version = "1.0.0"
-authors = ["k33wee (https://github.com/k33wee)"]
+authors = [
+    "ajithakdev <ajithkumarks2579@gmail.com>",
+    "k33wee (https://github.com/k33wee)",
+]
 edition = "2024"
 license = "GPL-3.0-or-later"
-description = "Clipboard history applet for COSMIC desktop environment"
+description = "Auto-pasting clipboard manager applet for the COSMIC desktop"
+repository = "https://github.com/ajithakdev/clip-paste"
+
+# The installed binary keeps the cosmic-applet-* name so it is discoverable as a
+# COSMIC panel applet; the crate/project is named clip-paste.
+[[bin]]
+name = "cosmic-applet-clip-paste"
+path = "src/main.rs"
 
 [dependencies]
 futures-util = "0.3.31"
@@ -15,6 +25,18 @@ serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.48.0", features = ["full"] }
 toml = "0.9.8"
 wl-clipboard-rs = "0.9.2"
+
+[package.metadata.deb]
+# Runtime deps: wtype for the synthetic Ctrl+V paste-on-select, wl-clipboard for
+# reading/writing the Wayland clipboard.
+depends = "wtype, wl-clipboard"
+assets = [
+    ["target/release/cosmic-applet-clip-paste", "usr/bin/", "755"],
+    ["resources/io.github.ajithakdev.clip-paste.desktop", "usr/share/applications/", "644"],
+    ["resources/io.github.ajithakdev.clip-paste.metainfo.xml", "usr/share/metainfo/", "644"],
+    ["resources/icon.svg", "usr/share/icons/hicolor/scalable/apps/io.github.ajithakdev.clip-paste.svg", "644"],
+    ["LICENSE", "usr/share/licenses/clip-paste/", "644"],
+]
 
 [dependencies.i18n-embed]
 version = "0.16"

@@ -1,5 +1,5 @@
 use crate::app::{AppModel, Message};
-use cosmic::iced::Length;
+use cosmic::iced::{Alignment, Length};
 use cosmic::prelude::*;
 use cosmic::widget;
 
@@ -68,6 +68,22 @@ pub(super) fn settings_panel(app: &AppModel) -> Element<'_, Message> {
             .push(image_bytes)
             .push(image_dimension),
     );
+
+    col = col.push(widget::divider::horizontal::light());
+    col = col.push(widget::text::caption("Behavior"));
+    col = col.push(
+        widget::row::Row::new()
+            .spacing(8)
+            .align_y(Alignment::Center)
+            .push(widget::text::body("Paste on select").width(Length::Fill))
+            .push(
+                widget::toggler(app.settings_draft.paste_on_select)
+                    .on_toggle(Message::SettingsPasteOnSelectToggled),
+            ),
+    );
+    col = col.push(widget::text::caption(
+        "Auto-paste (Ctrl+V) into the focused window after selecting. Requires wtype.",
+    ));
 
     if let Some(err) = &app.settings_error {
         col = col.push(widget::text::body(err));

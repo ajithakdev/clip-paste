@@ -5,8 +5,11 @@ set -e
 NAME=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
 VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
 DESC=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].description')
+# The crate/package is named clip-paste but the installed binary keeps the
+# cosmic-applet-* name so COSMIC discovers it as a panel applet.
+BIN=cosmic-applet-clip-paste
 ARCH=amd64
-APPID=io.github.k33wee.clippy-land
+APPID=io.github.ajithakdev.clip-paste
 
 # Build the project
 cargo build --release
@@ -20,15 +23,15 @@ mkdir -p deb_build/DEBIAN \
          deb_build/usr/share/metainfo
 
 # Copy files
-cp target/release/$NAME deb_build/usr/bin/
-chmod 755 deb_build/usr/bin/$NAME
+cp target/release/$BIN deb_build/usr/bin/
+chmod 755 deb_build/usr/bin/$BIN
 sh scripts/render-debug-wrapper.sh \
-    resources/$NAME-debug.sh.in \
-    "/usr/bin/$NAME" \
-    deb_build/usr/bin/$NAME-debug.sh
+    resources/$BIN-debug.sh.in \
+    "/usr/bin/$BIN" \
+    deb_build/usr/bin/$BIN-debug.sh
 sh scripts/render-desktop-entry.sh \
     resources/$APPID.desktop \
-    "/usr/bin/$NAME" \
+    "/usr/bin/$BIN" \
     deb_build/usr/share/applications/$APPID.desktop
 cp resources/icon.svg deb_build/usr/share/icons/hicolor/scalable/apps/$APPID.svg
 cp resources/$APPID.metainfo.xml deb_build/usr/share/metainfo/$APPID.metainfo.xml
@@ -40,7 +43,8 @@ Version: $VERSION
 Section: utils
 Priority: optional
 Architecture: $ARCH
-Maintainer: k33wee <https://github.com/k33wee>
+Depends: wtype, wl-clipboard
+Maintainer: ajithakdev <ajithkumarks2579@gmail.com>
 Description: $DESC
 EOL
 

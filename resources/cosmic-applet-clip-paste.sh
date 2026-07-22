@@ -13,4 +13,4 @@ if [ -d "$COSMIC_HOST" ] && [ ! -e "$COSMIC_SANDBOX" ]; then
     ln -s "$COSMIC_HOST" "$COSMIC_SANDBOX"
 fi
 
-exec /app/bin/cosmic-applet-clippy-land "$@"
+exec /app/bin/cosmic-applet-clip-paste "$@"

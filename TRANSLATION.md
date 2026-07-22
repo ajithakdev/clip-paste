@@ -1,6 +1,6 @@
 # Translation guide
 
-Clippy Land uses Fluent translation files stored in `i18n/<locale>/cosmic_applet_clippy_land.ftl`.
+clip-paste uses Fluent translation files stored in `i18n/<locale>/clip_paste.ftl`.
 
 Fallback language configuration lives in `i18n.toml` and currently uses `en`.
 
@@ -26,7 +26,7 @@ i18n/es/
 2. Copy the English base file:
 
 ```text
-i18n/en/cosmic_applet_clippy_land.ftl
+i18n/en/clip_paste.ftl
 ```
 
 3. Translate every message into the target language.
@@ -52,7 +52,7 @@ no-results = No results found
 - Keep every message key exactly the same.
 - Only translate the message values.
 - Preserve placeholders and Fluent syntax if new strings introduce them.
-- Keep the file name exactly `cosmic_applet_clippy_land.ftl`.
+- Keep the file name exactly `clip_paste.ftl`.
 - Use UTF-8 text.
 - Try to keep labels short enough for panel popup controls.
 
@@ -63,7 +63,7 @@ Please include in your PR:
 - the locale code you added or updated
 - whether it is a new translation or an update
 - your preferred contributor tag for credits in this file / README-style docs
-- confirmation that you checked your file against `i18n/en/cosmic_applet_clippy_land.ftl`
+- confirmation that you checked your file against `i18n/en/clip_paste.ftl`
 
 Suggested PR description:
 
@@ -75,7 +75,7 @@ Suggested PR description:
 
 ## Notes
 
-- Added or updated all keys from `i18n/en/cosmic_applet_clippy_land.ftl`
+- Added or updated all keys from `i18n/en/clip_paste.ftl`
 - Contributor tag for credits: @your-handle
 ```
 
@@ -88,12 +88,12 @@ Suggested PR description:
 ## Related files
 
 - `i18n.toml`
-- `i18n/en/cosmic_applet_clippy_land.ftl`
+- `i18n/en/clip_paste.ftl`
 - `src/i18n.rs`
 
 ## Updating the Description on Cosmic Store
 
-The Cosmic Store displays the applet description and summaries using metadata from `resources/io.github.k33wee.clippy-land.metainfo.xml`.
+The Cosmic Store displays the applet description and summaries using metadata from `resources/io.github.ajithakdev.clip-paste.metainfo.xml`.
 
 ### Where to edit
 - The main applet description for the store is in the `<description>` block of the XML file. Each language uses an XML language tag, e.g.:
@@ -124,12 +124,12 @@ The Cosmic Store displays the applet description and summaries using metadata fr
 <summary xml:lang="pl">Historia schowka dla panelu COSMIC</summary>
 ...
 <description>
-  <p>Clippy Land is a COSMIC panel applet that keeps a history of recently copied text and images.</p>
-  <p xml:lang="pl">Clippy Land to aplet panelu COSMIC, który przechowuje historię ostatnio kopiowanych tekstów i obrazków.</p>
+  <p>clip-paste is a COSMIC panel applet that keeps a history of recently copied text and images.</p>
+  <p xml:lang="pl">clip-paste to aplet panelu COSMIC, który przechowuje historię ostatnio kopiowanych tekstów i obrazków.</p>
   ...
 </description>
 ```
 
 For further reference or details on translation/localization structure, see:
-- [`resources/io.github.k33wee.clippy-land.metainfo.xml`](resources/io.github.k33wee.clippy-land.metainfo.xml)
+- [`resources/io.github.ajithakdev.clip-paste.metainfo.xml`](resources/io.github.ajithakdev.clip-paste.metainfo.xml)
 - [Flatpak/Flathub AppStream documentation](https://docs.flatpak.org/en/latest/metadata.html)

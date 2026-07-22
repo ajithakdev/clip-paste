@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.k33wee.clippy-land</id>
+  <id>io.github.ajithakdev.clip-paste</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <name>Clippy Land</name>
-  <summary>Clipboard history for COSMIC panel</summary>
-  <summary xml:lang="cs">Historie schránky pro panel COSMIC</summary>
-  <developer_name>k33wee</developer_name>
-  <developer id="io.github.k33wee">
-    <name>k33wee</name>
+  <name>clip-paste</name>
+  <summary>Auto-pasting clipboard manager for the COSMIC panel</summary>
+  <developer_name>ajithakdev</developer_name>
+  <developer id="io.github.ajithakdev">
+    <name>ajithakdev</name>
   </developer>
   <description>
     <p>
-      Clippy Land is a COSMIC panel applet that keeps a history of recently copied text and images.
-      Click the panel icon to browse, re-copy, pin, or delete clipboard entries without leaving your workflow.
+      clip-paste is a COSMIC panel applet that keeps a history of recently copied text and images.
+      Click the panel icon to browse, re-copy, pin, or delete clipboard entries; selecting an entry
+      auto-pastes it at the cursor of the previously focused window (via wtype).
       Note: this applet only works on the COSMIC™ desktop environment.
+    </p>
+    <p>
+      clip-paste is a fork of k33wee/clippy-land (GPL-3.0). See the project homepage for details.
     </p>
     <p xml:lang="cs">
       Clippy Land je applet pro panel COSMIC, který uchovává historii nedávno zkopírovaného textu a obrázků.
@@ -70,14 +73,14 @@
       <li xml:lang="cs">Ovládání pomocí klávesnice šipkami (nebo styl Vim: h/j/k/l)</li>
     </ul>
   </description>
-  <icon type="stock">io.github.k33wee.clippy-land</icon>
-  <launchable type="desktop-id">io.github.k33wee.clippy-land.desktop</launchable>
-  <url type="homepage">https://github.com/k33wee/clippy-land</url>
-  <url type="bugtracker">https://github.com/k33wee/clippy-land/issues</url>
-  <url type="vcs-browser">https://github.com/k33wee/clippy-land</url>
+  <icon type="stock">io.github.ajithakdev.clip-paste</icon>
+  <launchable type="desktop-id">io.github.ajithakdev.clip-paste.desktop</launchable>
+  <url type="homepage">https://github.com/ajithakdev/clip-paste</url>
+  <url type="bugtracker">https://github.com/ajithakdev/clip-paste/issues</url>
+  <url type="vcs-browser">https://github.com/ajithakdev/clip-paste</url>
   <provides>
     <id>com.system76.CosmicApplet</id>
-    <binary>cosmic-applet-clippy-land</binary>
+    <binary>cosmic-applet-clip-paste</binary>
   </provides>
   <requires>
     <display_length compare="ge">768</display_length>
@@ -109,13 +112,23 @@
   </keywords>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/k33wee/clippy-land/main/resources/example.png</image>
+      <image>https://raw.githubusercontent.com/ajithakdev/clip-paste/main/resources/example.png</image>
       <caption>Clipboard history popup</caption>
       <caption xml:lang="cs">Okno historie schránky</caption>
     </screenshot>
   </screenshots>
   <releases>
-    <release version="1.0.0" date="2026-06-25">
+    <release version="1.0.0" date="2026-07-22">
+      <description>
+        <p>First clip-paste release (fork of clippy-land 1.0.0):</p>
+        <p>
+          - Auto-paste at cursor on item-select via wtype;
+          - Removed the broken layer-surface --toggle path;
+          - Hardened image thumbnail rendering against a renderer crash;
+        </p>
+      </description>
+    </release>
+    <release version="1.0.0-upstream" date="2026-06-25">
       <url type="details">https://github.com/k33wee/clippy-land/releases/tag/v1.0.0</url>
       <description>
         <p>

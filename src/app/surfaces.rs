@@ -4,22 +4,6 @@ use cosmic::iced::window::Id;
 use cosmic::prelude::*;
 use cosmic::surface::action::{self, LiveSettings};
 
-pub(in crate::app) fn open_layer_surface_popup(
-    app: &mut AppModel,
-) -> Task<cosmic::Action<Message>> {
-    let new_id = Id::unique();
-    app.popup.replace(new_id);
-    app.popup_surface = Some(PopupSurface::LayerSurface);
-    app.popup_controls_ready = false;
-    app.note_popup_stage_marker("issuing libcosmic app_layer_shell request");
-
-    surface_task(action::app_layer_shell::<AppModel>(
-        default_live_settings,
-        move |_| crate::app::history_layer_surface_settings(new_id),
-        None,
-    ))
-}
-
 pub(in crate::app) fn open_anchored_popup(app: &mut AppModel) -> Task<cosmic::Action<Message>> {
     let new_id = Id::unique();
     app.popup.replace(new_id);
@@ -43,12 +27,8 @@ pub(in crate::app) fn destroy_popup_surface(
     id: Id,
     surface: Option<PopupSurface>,
 ) -> Task<cosmic::Action<Message>> {
-    let action = match surface {
-        Some(PopupSurface::AnchoredPopup) => action::destroy_popup(id),
-        Some(PopupSurface::LayerSurface) | None => action::destroy_layer_shell(id),
-    };
-
-    surface_task(action)
+    let _ = surface;
+    surface_task(action::destroy_popup(id))
 }
 
 fn default_live_settings(_: &AppModel) -> LiveSettings {

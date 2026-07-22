@@ -1,4 +1,4 @@
-use super::shared::{prune_thumbnail_handles, row_has_preview};
+use super::shared::{prune_thumbnail_handles, row_has_preview, select_history_item};
 use crate::app::model::FocusPart;
 use crate::app::view::filtered_indices;
 use crate::app::{AppModel, Message, pinned_history};
@@ -128,13 +128,14 @@ pub(super) fn handle(
             }
             Some(Task::none())
         }
+        Message::CopyFromHistory(index) => {
+            Some(select_history_item(app, index).unwrap_or_else(Task::none))
+        }
         Message::ActivateSelection => {
             if let Some((idx, part)) = app.keyboard_focus {
                 match part {
                     FocusPart::Entry => {
-                        if let Some(item) = app.history.get(idx) {
-                            history::copy_history_item(item);
-                        }
+                        return Some(select_history_item(app, idx).unwrap_or_else(Task::none));
                     }
                     FocusPart::Preview => {
                         if row_has_preview(app, idx) {
@@ -158,9 +159,7 @@ pub(super) fn handle(
                     }
                 }
             } else if let Some(idx) = app.hovered_index {
-                if let Some(item) = app.history.get(idx) {
-                    history::copy_history_item(item);
-                }
+                return Some(select_history_item(app, idx).unwrap_or_else(Task::none));
             }
             Some(Task::none())
         }

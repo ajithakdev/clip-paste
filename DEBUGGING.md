@@ -20,18 +20,18 @@ If the problem is performance-related, please also include logs from the debug w
 
 ## Collect panel debug logs
 
-Clippy Land ships a debug wrapper that enables `CLIPPY_LAND_DEBUG_TIMING=1` and writes panel-spawned applet logs to a file.
+Clippy Land ships a debug wrapper that enables `CLIP_PASTE_DEBUG_TIMING=1` and writes panel-spawned applet logs to a file.
 
 Default log path:
 
 ```bash
-${XDG_STATE_HOME:-$HOME/.local/state}/clippy-land/panel-debug.log
+${XDG_STATE_HOME:-$HOME/.local/state}/clip-paste/panel-debug.log
 ```
 
 You can override the log file with:
 
 ```bash
-CLIPPY_LAND_DEBUG_LOG_FILE=/path/to/custom.log
+CLIP_PASTE_DEBUG_LOG_FILE=/path/to/custom.log
 ```
 
 ## Source or custom-prefix installs
@@ -55,17 +55,17 @@ pkill -9 cosmic-panel
 The wrapper is installed alongside the normal binary as:
 
 ```bash
-/usr/bin/cosmic-applet-clippy-land-debug.sh
+/usr/bin/cosmic-applet-clip-paste-debug.sh
 ```
 
 To use it in COSMIC panel:
 
 1. Copy the desktop entry to:
-   `~/.local/share/applications/io.github.k33wee.clippy-land.desktop`
+   `~/.local/share/applications/io.github.ajithakdev.clip-paste.desktop`
 2. Change `Exec=` to:
 
 ```bash
-/usr/bin/cosmic-applet-clippy-land-debug.sh
+/usr/bin/cosmic-applet-clip-paste-debug.sh
 ```
 
 3. Restart the panel:
@@ -79,13 +79,13 @@ pkill -9 cosmic-panel
 The debug wrapper is available inside the sandbox as:
 
 ```bash
-flatpak run --command=cosmic-applet-clippy-land-debug.sh io.github.k33wee.clippy-land
+flatpak run --command=cosmic-applet-clip-paste-debug.sh io.github.ajithakdev.clip-paste
 ```
 
 To make the panel applet use it, create a user-local desktop-entry override and set:
 
 ```bash
-Exec=flatpak run --command=cosmic-applet-clippy-land-debug.sh io.github.k33wee.clippy-land
+Exec=flatpak run --command=cosmic-applet-clip-paste-debug.sh io.github.ajithakdev.clip-paste
 ```
 
 Then restart the panel:
@@ -102,7 +102,7 @@ After enabling the wrapper:
 2. reproduce the issue
 3. test both paths when relevant:
    - click the applet in the panel
-   - run `cosmic-applet-clippy-land --toggle` or `flatpak run ... --toggle`
+   - run `cosmic-applet-clip-paste --toggle` or `flatpak run ... --toggle`
 4. attach the log file to the issue
 
 ## Most useful log lines
@@ -139,7 +139,7 @@ Describe the bug briefly.
 ### Expected behavior
 
 ### Logs
-Attach `${XDG_STATE_HOME:-$HOME/.local/state}/clippy-land/panel-debug.log`
+Attach `${XDG_STATE_HOME:-$HOME/.local/state}/clip-paste/panel-debug.log`
 
 ### Screenshots / recording
 If relevant
@@ -147,5 +147,5 @@ If relevant
 
 ## Notes
 
-- Timing logs are enabled by the debug wrapper via `CLIPPY_LAND_DEBUG_TIMING=1`.
+- Timing logs are enabled by the debug wrapper via `CLIP_PASTE_DEBUG_TIMING=1`.
 - The wrapper is meant for diagnostics; normal installs keep using the standard launcher by default.

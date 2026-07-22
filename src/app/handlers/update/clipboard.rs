@@ -63,12 +63,6 @@ pub(super) fn handle(app: &mut AppModel, message: Message) -> bool {
             app.text_overlay_index = None;
             true
         }
-        Message::CopyFromHistory(index) => {
-            if let Some(item) = app.history.get(index) {
-                history::copy_history_item(item);
-            }
-            true
-        }
         Message::RemoveHistory(index) => {
             let removed_pinned = app.history.remove(index).is_some_and(|item| item.pinned);
             prune_thumbnail_handles(app);

@@ -3,7 +3,7 @@ set -eu
 
 APP_EXEC='@APP_EXEC@'
 LOG_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/clippy-land"
-LOG_FILE="${CLIPPY_LAND_DEBUG_LOG_FILE:-$LOG_DIR/panel-debug.log}"
+LOG_FILE="${CLIP_PASTE_DEBUG_LOG_FILE:-$LOG_DIR/panel-debug.log}"
 
 mkdir -p "$LOG_DIR"
 
@@ -12,6 +12,6 @@ mkdir -p "$LOG_DIR"
     printf 'log file: %s\n' "$LOG_FILE"
 } >>"$LOG_FILE" 2>&1
 
-export CLIPPY_LAND_DEBUG_TIMING="${CLIPPY_LAND_DEBUG_TIMING:-1}"
+export CLIP_PASTE_DEBUG_TIMING="${CLIP_PASTE_DEBUG_TIMING:-1}"
 
 exec "$APP_EXEC" "$@" >>"$LOG_FILE" 2>&1
