@@ -1,5 +1,7 @@
 # clip-paste
 
+Every link and how-to is in [RESOURCES-AND-GUIDE.md](RESOURCES-AND-GUIDE.md).
+
 Auto-pasting clipboard manager applet for the COSMIC desktop (Pop!_OS 24.04+).
 
 clip-paste keeps a history of what you copy and, when you pick an entry, pastes it
