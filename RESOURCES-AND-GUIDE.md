@@ -20,6 +20,7 @@ Every link for the clip-paste applet, what it is for, and how to run and release
 | https://github.com/ajithakdev/clip-paste/releases | Download .deb and Flatpak releases |
 | https://github.com/ajithakdev/clip-paste/issues | Issue tracker and bug reports |
 | https://github.com/k33wee/clippy-land | Upstream repository |
+| https://ko-fi.com/ajithakdev | Tips and support |
 
 ### Behind the scenes
 
